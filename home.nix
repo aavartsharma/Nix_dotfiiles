@@ -18,11 +18,9 @@
   };
   programs.git ={
     enable =true;
+    username = "aavartsharma";
+  	userEmail = "rockstarfan0369@gmail.com";
     settings = {
-      user = {
-        name  = "aavartsharma";
-        email = "rockstarfan0369@gmail.com";
-      };
       init.defaultBranch = "main";
     };
   };

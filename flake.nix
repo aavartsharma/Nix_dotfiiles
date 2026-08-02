@@ -34,7 +34,16 @@
 		      }
 	    	];
 	    };
+
+	    silica = nixpkgs.lib.nixosSystem {
+	    	system = system_arch;
+		     modules = [ 
+		      ./configuration.nix
+		      ./hardware-configuration.nix
+		     ];
+	    };
     };
+	  
 	  homeConfigurations.amper= home-manager.lib.homeManagerConfiguration {
 	    pkgs= nixpkgs.legacyPackages.${system_arch};
 	    modules = [ home ];
