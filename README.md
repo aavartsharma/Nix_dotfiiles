@@ -42,7 +42,9 @@ nixos-config/
 │   ├── my-script/ 
 │   ├── patched-firefox/
 │   └── default.nix
-└── home/
+├── overlays/
+│   └── default.nix
+|── home/
     ├── users/ 
         ├── alice/
             ├── default.nix
@@ -56,4 +58,5 @@ nixos-config/
         ├── shell.nix
         └── neovim.nix
         └── firefox.nix
+
 ```
