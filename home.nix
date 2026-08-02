@@ -11,5 +11,10 @@
 	    btw = "echo 'I use nixos'";
 	};
     };
+    programs.git = {
+    	enable = true;
+	username = "aavartsharma";
+	userEmail = "rockstarfan0369@gmail.com";
+    };
 }
 
