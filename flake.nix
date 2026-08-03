@@ -1,6 +1,5 @@
 {
   description = "First flake";
-
   inputs = {
 	  nixpkgs = {
 	    url= "github:NixOS/nixpkgs/nixos-26.05";
@@ -18,35 +17,38 @@
   outputs = inputs@{ self, nixpkgs, home-manager, ... }: 
   let 
     system_arch = "x86_64-linux";
-    home = ./home.nix;
-  in {
-	  nixosConfigurations = {
-  	  aavart = nixpkgs.lib.nixosSystem {
+    home = ./home/users/aavart/default.nix;
+    mkHost = { hostname, username}:
+      nixpkgs.lib.nixosSystem {
 	      system = system_arch;
 		    specialArgs = { 
           inherit inputs; 
         };
 	    	modules = [ 
-	        ./hosts/aavart 
+	        ./hosts/${hostname}/default.nix
+          ./hosts/${hostname}/hardware-configuration.nix
 		      home-manager.nixosModules.home-manager {
-		    	  home-manager.extraSpecialArgs = { inherit inputs; };
-		    	  home-manager.users.aavart = import home;
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+		    	    extraSpecialArgs = { 
+                inherit inputs; 
+              };
+		    	    users.${username} = import home;
+            };
 		      }
 	    	];
 	    };
-
-	    silica = nixpkgs.lib.nixosSystem {
-	    	system = system_arch;
-		     modules = [ 
-		      ./configuration.nix
-		      ./hardware-configuration.nix
-		     ];
-	    };
+  in {
+	  nixosConfigurations = {
+  	  aavart = mkHost {
+        hostname = "aavart";
+        username = "aavart";
+      };
+	    silica = mkHost {
+        hostname = "silica";
+        username = "aavart";
+      };
     };
-	  
-	  homeConfigurations.amper= home-manager.lib.homeManagerConfiguration {
-	    pkgs= nixpkgs.legacyPackages.${system_arch};
-	    modules = [ home ];
-	  };
   };
 }
