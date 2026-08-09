@@ -8,7 +8,7 @@ let
     hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
   };
 
-  appimageContents = appimageTools.extractType1 { inherit name src; }
+  appimageContents = appimageTools.extractType1 { inherit pname src; }
 in
 appimageTools.wrapType2 rec {
   inherit pname version src;

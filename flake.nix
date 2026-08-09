@@ -5,7 +5,7 @@
 	    url= "github:NixOS/nixpkgs/nixos-26.05";
 	  };
 	  home-manager= {
-	    url = "github:nix-community/home-manager";
+	    url = "github:nix-community/home-manager/release-26.05";
 	    inputs.nixpkgs.follows= "nixpkgs";
 	  };
 	  nix4nvchad = {
@@ -17,7 +17,6 @@
   outputs = inputs@{ self, nixpkgs, home-manager, ... }: 
   let 
     system_arch = "x86_64-linux";
-    home = ./home/users/aavart/default.nix;
     mkHost = { hostname, username}:
       nixpkgs.lib.nixosSystem {
 	      system = system_arch;
@@ -31,10 +30,11 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              backupFileExtension = "backup";
 		    	    extraSpecialArgs = { 
                 inherit inputs; 
               };
-		    	    users.${username} = import home;
+		    	    users.${username} = import ./home/users/${username}/default.nix;
             };
 		      }
 	    	];
@@ -49,6 +49,15 @@
         hostname = "silica";
         username = "aavart";
       };
+    };
+    homeConfigurations.aavart = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      extraSpecialArgs = {
+        inherit inputs;
+      };
+      modules = [
+        ./home/users/aavart/default.nix
+      ];
     };
   };
 }

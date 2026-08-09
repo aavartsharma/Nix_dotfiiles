@@ -22,7 +22,6 @@
     #logseq-patch 
     syncthing
     yazi
-    home-manager
     wl-clipboard
     vlc
     zsh

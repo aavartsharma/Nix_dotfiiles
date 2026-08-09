@@ -24,5 +24,4 @@
   programs.nvchad={
     enable= true;
   };
-  
 }
