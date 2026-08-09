@@ -1,4 +1,7 @@
 { pkgs, ... }:
+let
+  logseqDB = import ../../pkgs/logseqDB/default.nix  { inherit pkgs; };
+in 
 {
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
@@ -27,5 +30,6 @@
     zsh
     obsidian
     ntfs3g
+    logseqDB
   ];
 }
