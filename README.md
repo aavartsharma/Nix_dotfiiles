@@ -60,3 +60,10 @@ nixos-config/
         └── firefox.nix
 
 ```
+
+```nix
+nix flake update
+
+sudo nixos-rebuild switch --flake .#laptop
+
+```
