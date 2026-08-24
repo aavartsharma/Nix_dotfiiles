@@ -1,7 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, pkgs_unstable, ... }:
+let
+  logseqDB = import ../../pkgs/logseqDB/default.nix  { inherit pkgs; };
+in 
 {
   nixpkgs.config.allowUnfree = true;
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     # Destop apps
     # CLI utils
     # Coding stuff
@@ -22,11 +25,16 @@
     #logseq-patch 
     syncthing
     yazi
-    home-manager
     wl-clipboard
     vlc
     zsh
     obsidian
     ntfs3g
-  ];
+    logseqDB
+    gcc  #avaible by default
+    gnumake
+    binutils
+  ]) ++ (with pkgs_unstable; [
+    godot
+  ]);
 }
